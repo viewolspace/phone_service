@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="User">
+    <sql id="selectCommon">
+		select user_id,
+                phone,
+                pwd,
+                nick_name,
+                idfa,
+                head_pic,
+                c_time,
+                m_time,
+                real_name,
+                sex,
+                birthday,
+                EXP,
+                des
+	</sql>
+
+    <select id="select" parameterType="int" resultType="User">
+        <include refid="selectCommon"/>
+        from phone_tool.user a where user_id = #{userId}
+    </select>
+
+    <select id="selectByPhone" parameterType="string" resultType="User">
+        <include refid="selectCommon"/>
+        from phone_tool.user a where phone = #{phone}
+    </select>
+
+    <insert id="insert" parameterType="User" useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId">
+        <selectKey keyProperty="userId" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO phone_tool.user
+        (
+        phone,pwd,nick_name,idfa,head_pic,c_time
+        )
+        VALUES
+        (
+        #{phone}, #{pwd}, #{nickName}, #{idfa}, #{headPic}, #{cTime}
+        )
+
+    </insert>
+
+    <update id="update" parameterType="User">
+		UPDATE phone_tool.user
+			SET
+			phone = #{phone} ,
+			nick_name = #{nickName} ,
+			head_pic = #{headPic} ,
+			m_time = #{mTime},
+			real_name = #{realName},
+			sex = #{sex} ,
+            birthday = #{birthday} ,
+            EXP = #{exp} ,
+            des = #{des}
+			WHERE
+			user_id = #{userId}
+	</update>
+
+    <update id="updatePwd" parameterType="map">
+		UPDATE phone_tool.user
+			SET
+			pwd = #{newPwd},
+            m_time = #{mTime}
+			WHERE
+			user_id = #{userId} and pwd = #{oldPwd}
+	</update>
+
+    <sql id="sql_count">
+		select count(*)
+	</sql>
+
+    <sql id="sql_where">
+        FROM phone_tool.user a
+        <where>
+            <if test="userId != null and userId != '' ">
+                AND a.user_id = #{userId}
+            </if>
+            <if test="phone != null and phone != '' ">
+                AND a.phone = #{phone}
+            </if>
+            <if test="nickName != null and nickName != '' ">
+                AND a.nick_name = #{nickName}
+            </if>
+            <if test="realName != null and realName != '' ">
+                AND a.real_name = #{realName}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="sql_order">
+		order by a.c_time desc
+	</sql>
+
+    <select id="findByParams_count" parameterType="java.util.HashMap" resultType="int">
+        <include refid="sql_count"/>
+        <include refid="sql_where"/>
+    </select>
+    <select id="findByParams" parameterType="java.util.HashMap" resultType="User">
+        <include refid="selectCommon"/>
+        <include refid="sql_where"/>
+        <include refid="sql_order"/>
+    </select>
+
+    <delete id="delete" parameterType="int">
+		delete from phone_tool.user WHERE user_id = #{userId} ;
+	</delete>
+</mapper>

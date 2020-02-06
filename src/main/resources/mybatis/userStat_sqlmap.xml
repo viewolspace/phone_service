@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserStat">
+    <sql id="selectCommon">
+		select stat_date,user_active,user_register,user_idfa,browse_num,copy_num,join_num,c_time,m_time,browse_user_num
+	</sql>
+
+    <select id="findByStatDate" parameterType="int" resultType="UserStat">
+        <include refid="selectCommon"/>
+        from part_time.user_stat a where stat_date = #{statDate}
+    </select>
+
+    <insert id="insert" parameterType="UserStat" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO part_time.user_stat
+        (
+        stat_date,user_active,user_register,user_idfa,browse_num,copy_num,join_num,c_time,browse_user_num
+        )
+        VALUES
+        (
+        #{statDate},#{userActive},#{userRegister},#{userIdfa},#{browseNum},#{copyNum},#{joinNum},#{cTime},#{browseUserNum}
+        )
+
+    </insert>
+
+    <update id="update" parameterType="UserStat">
+        UPDATE part_time.user_stat
+        <set>
+            <if test="userActive != null  and userActive != 0">
+                user_active = user_active+#{userActive},
+            </if>
+            <if test="userRegister != null  and userRegister != 0">
+                user_register = user_register+#{userRegister},
+            </if>
+            <if test="userIdfa != null  and userIdfa != 0">
+                user_idfa = user_idfa+#{userIdfa},
+            </if>
+            <if test="browseNum != null  and browseNum != 0">
+                browse_num = browse_num+#{browseNum},
+            </if>
+            <if test="copyNum != null  and copyNum != 0">
+                copy_num = copy_num+#{copyNum},
+            </if>
+            <if test="joinNum != null  and joinNum != 0">
+                join_num = join_num+#{joinNum},
+            </if>
+            <if test="browseUserNum != null  and browseUserNum != 0">
+                browse_user_num = browse_user_num+#{browseUserNum},
+            </if>
+            m_time = #{mTime}
+        </set>
+        WHERE
+        stat_date = #{statDate} ;
+    </update>
+
+    <sql id="sql_count">
+		select count(*)
+	</sql>
+
+    <sql id="sql_where">
+        FROM user_stat a
+        <where>
+            <if test="statDate != null and statDate != '' ">
+                AND stat_date = #{statDate}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="sql_order">
+		order by a.c_time desc
+	</sql>
+
+    <select id="findByParams_count" parameterType="java.util.HashMap" resultType="int">
+        <include refid="sql_count"/>
+        <include refid="sql_where"/>
+    </select>
+    <select id="findByParams" parameterType="java.util.HashMap" resultType="UserStat">
+        <include refid="selectCommon"/>
+        <include refid="sql_where"/>
+        <include refid="sql_order"/>
+    </select>
+</mapper>

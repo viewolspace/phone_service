@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserPhone">
+    <sql id="selectCommon">
+
+        SELECT 	id,
+                user_id,
+                c_time,
+                m_time,
+                content,
+                des,
+                num
+	</sql>
+
+    <select id="select" parameterType="int" resultType="UserPhone">
+        <include refid="selectCommon"/>
+        from user_phone a where user_id = #{userId} order by id desc limit 1
+    </select>
+
+
+
+    <insert id="insert" parameterType="UserPhone" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO user_phone
+        (
+        user_id,
+        c_time,
+        m_time,
+        content,
+        des,
+        num
+        )
+        VALUES
+        (
+        #{userId}, #{cTime}, #{mTime}, #{content}, #{des}, #{num}
+        )
+
+    </insert>
+
+    <select id="selectList" parameterType="map" resultType="UserPhone">
+        <include refid="selectCommon"/>
+          from user_phone a
+          where user_id = #{userId}
+          and id &lt; #{maxId}
+          order by id desc limit #{pageSize}
+    </select>
+
+
+</mapper>
