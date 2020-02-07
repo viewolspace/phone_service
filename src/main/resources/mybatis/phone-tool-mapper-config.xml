@@ -15,9 +15,9 @@
 
     <typeAliases>
 
-        <typeAlias alias="User" type="com.chenghe.parttime.pojo.User"/>
-        <typeAlias alias="UserStat" type="com.chenghe.parttime.pojo.UserStat"/>
-        <typeAlias alias="UserPhone" type="com.chenghe.parttime.pojo.UserPhone"/>
+        <typeAlias alias="User" type="com.mugua.phone.pojo.User"/>
+        <typeAlias alias="UserStat" type="com.mugua.phone.pojo.UserStat"/>
+        <typeAlias alias="UserPhone" type="com.mugua.phone.pojo.UserPhone"/>
 
     </typeAliases>
 
