@@ -59,6 +59,6 @@ public class UserDAOImpl extends BaseDAO<User> implements IUserDAO {
 
     @Override
     public User getUser(String phone) {
-        return super.findUniqueBy("selectByPhone",phone);
+        return super.findUniqueBy("selectByPhone", phone);
     }
 }

@@ -1,5 +1,6 @@
-package com.mugua.phone.base;
+package com.mugua.phone.service.base;
 
+import com.mugua.phone.base.ContextLoader;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.springframework.context.ApplicationContext;

@@ -11,7 +11,7 @@ import com.mugua.phone.pojo.Idfa;
  * @review:
  */
 public interface IIdfaService {
-    int addIdfa(String idfa,String os);
+    int addIdfa(String idfa, String os);
 
     Idfa getIdfa(String idfa);
 }

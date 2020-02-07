@@ -1,7 +1,8 @@
-package com.mugua.phone.service;
+package com.mugua.phone.service.impl;
 
-import com.mugua.phone.base.BaseTestClass;
 import com.mugua.phone.pojo.UserPhone;
+import com.mugua.phone.service.IUserPhoneService;
+import com.mugua.phone.service.base.BaseTestClass;
 import org.junit.Test;
 
 /**

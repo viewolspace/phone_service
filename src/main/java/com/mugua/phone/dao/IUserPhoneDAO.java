@@ -13,5 +13,5 @@ public interface IUserPhoneDAO {
 
     UserPhone getUserPhone(int userId);
 
-    List<UserPhone> listUserPhone(int userId, int maxId , int pageSize);
+    List<UserPhone> listUserPhone(int userId, int maxId, int pageSize);
 }
